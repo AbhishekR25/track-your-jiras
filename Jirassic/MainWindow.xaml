@@ -1,0 +1,337 @@
+﻿<Window x:Name="MainWindow1" x:Class="Jirassic.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:properties="clr-namespace:Jirassic.Properties"
+        xmlns:local="clr-namespace:Jirassic"
+        mc:Ignorable="d"
+       Title="Jira Tracker" Height="530" Width="1130" ResizeMode="CanMinimize" Background="#FFF3F3F2">
+    <Grid x:Name="MainGrid">
+        <DockPanel x:Name="MainDock">
+            <StackPanel x:Name="topStack" DockPanel.Dock="Top" Orientation="Horizontal" VerticalAlignment="Top">
+                <StackPanel x:Name="InputStack" Orientation="Vertical" Margin="0,18,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="160" >
+                    <StackPanel Orientation="Horizontal">
+                        <Label x:Name="associateID" Height="29" Content="Associate ID" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent" Padding="0,5,5,5" Margin="3,0,0,0"/>
+                        <TextBox x:Name="inputText" Height="22" Padding="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" TextChanged="InputText_TextChanged"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label x:Name="password" Height="29" Content="Password" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent" Padding="0,5,5,5" Margin="3,0,0,0"/>
+                        <PasswordBox x:Name="inputPass" Height="22" Padding="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Margin="16,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="associateIdSubmitButton" Content="Submit" HorizontalAlignment="Left" Height="22" VerticalAlignment="Center" Width="60" Click="AssociateIdSubmitButton_Click" Background="{x:Null}" Margin="26
+                                ,0,0,0"/>
+                        <Button x:Name="associateIdClearButton" Content="Clear" HorizontalAlignment="Left" Height="22" VerticalAlignment="Center" Width="60" Click="AssociateIdClearButton_Click" Background="{x:Null}" Margin="5
+                                ,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <GroupBox x:Name="FilterGroupBox" Header="{x:Static properties:Resources.FilterGroupBox}" Margin="15,9,0,0" Width="411" BorderThickness="2">
+                    <StackPanel x:Name="filterStack" Orientation="Horizontal" Margin="0,2,0,0" HorizontalAlignment="Center" Height="71">
+                        <StackPanel x:Name="JiraInstanceStack" Orientation="Vertical">
+                            <Label x:Name="jiraInstance" Height="29" Content="{x:Static properties:Resources.jiraInstance}" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent" Margin="5,0,0,0" Padding="0,5,5,5"/>
+                            <ComboBox x:Name="jiraInstanceComboBox" Width="120" Margin="5,0,0,0" SelectionChanged="JiraInstanceComboBox_SelectionChanged" MaxDropDownHeight="85"/>
+                        </StackPanel>
+
+                        <StackPanel x:Name="StatusStack" Orientation="Vertical">
+                            <Label x:Name="status" Height="29" Content="{x:Static properties:Resources.status}" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent" Margin="6,0,0,0" Padding="0,5,5,5"/>
+                            <ComboBox x:Name="statusComboBox" Width="120" Margin="5,0,0,0" SelectionChanged="StatusComboBox_SelectionChanged" MaxDropDownHeight="85" IsEnabled="False"/>
+                        </StackPanel>
+
+                        <StackPanel x:Name="ActivityStack" Orientation="Vertical">
+                            <Label x:Name="activity" Height="29" Content="{x:Static properties:Resources.activity}" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent" Margin="6,0,0,0" Padding="0,5,5,5"/>
+                            <ComboBox x:Name="activityComboBox" Width="120" Margin="5,0,0,0" SelectionChanged="ActivityComboBox_SelectionChanged" MaxDropDownHeight="85" IsEnabled="False"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+
+            <StackPanel x:Name="displayStack" Orientation="Vertical">
+                <TextBlock x:Name="associateNameBlock" FontWeight="Bold" HorizontalAlignment="Right" Height="18" TextWrapping="Wrap" Width="281"/>
+
+                <TabControl x:Name="tabControl" TabStripPlacement="Left" UseLayoutRounding="True" SelectionChanged="TabControl_SelectionChanged" Margin="5">
+                    <TabItem x:Name="jiraTab" Background="#FFCACACA" HorizontalAlignment="Left" ToolTip="JIRA">
+                        <TabItem.Header>
+                            <Image x:Name="JiraLogo" Width="30" Height="35" Source="jira.png"/>
+                        </TabItem.Header>
+                        <Grid x:Name="jiraGrid" Background="#FFE5E5E5" Height="325">
+                            <StackPanel x:Name="dataOutputStack" Orientation="Horizontal" MinWidth="1056" HorizontalAlignment="Center" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Visible" MinHeight="300">
+                                <StackPanel x:Name="assigneeStack" MinWidth="500" MinHeight="300" Margin="10">
+                                    <Label x:Name="assigneelabel" FontWeight="DemiBold" Content="Assignee" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="64" Background="SteelBlue" Foreground="White"/>
+                                    <DataGrid x:Name="assigneeGrid" 
+                                      VerticalAlignment="Top" 
+                                      BorderBrush="SteelBlue" 
+                                      Foreground="Black" 
+                                      VerticalGridLinesBrush="White" 
+                                      HorizontalScrollBarVisibility="Visible" 
+                                      IsReadOnly="True" 
+                                      HeadersVisibility="Column"
+                                      RowHeight="20" 
+                                      RowHeaderWidth="110" 
+                                      RowBackground="WhiteSmoke"
+                                      AlternatingRowBackground="#FFECECEC" 
+                                      CanUserResizeRows="False" 
+                                      Height="250"
+                                      HorizontalGridLinesBrush="White" 
+                                      Background="#FFF3F3F2"
+                                      HorizontalAlignment="Left" 
+                                      VerticalScrollBarVisibility="Visible" Width="500">
+
+                                        <DataGrid.Columns>
+                                            <DataGridHyperlinkColumn x:Name="jiraIdGridColumn" CanUserSort="False" Binding="{Binding issueKey}" Header="JIRA ID" Width="110" />
+                                            <DataGridTextColumn x:Name="summaryGridColumn" CanUserSort="False" Binding="{Binding summary}" Header="Summary" Width="170">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style>
+                                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                        <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn x:Name="statusGridColumn" TextBlock.TextAlignment="Left" Binding="{Binding status}"  Header="Status" Width="120"/>
+                                            <DataGridTextColumn x:Name="issueTypeGridColumn" Binding="{Binding issueType}"  Header="Issue Type" Width="80"/>
+                                        </DataGrid.Columns>
+
+                                        <DataGrid.CellStyle>
+                                            <Style TargetType="DataGridCell" >
+                                                <EventSetter Event="PreviewMouseDown" Handler="Grid_PreviewMouseDown"/>
+                                                <Setter Property="ToolTip" Value="{Binding toolTip}" />
+                                            </Style>
+                                        </DataGrid.CellStyle>
+
+                                        <DataGrid.Resources>
+                                            <Style TargetType="DataGridColumnHeader">
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                                <Setter Property="Height" Value="30"/>
+                                                <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
+                                            </Style>
+
+                                            <Style TargetType="ColumnDefinition">
+                                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                            </Style>
+
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFAAA7AC"/>
+                                        </DataGrid.Resources>
+                                    </DataGrid>
+
+                                    <StackPanel x:Name="AssigneeIssues" Orientation="Horizontal" Margin="0,10,0,0">
+                                        <TextBlock x:Name="assigneeIssueTextBlock" Text="{x:Static properties:Resources.assigneeIssueTextBlock}" FontWeight="Bold" FontSize="12" HorizontalAlignment="Center"/>
+                                        <TextBlock x:Name="assigneeIssueCount" FontWeight="Bold" FontSize="12" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel x:Name="reporterStack" Margin="10" MinWidth="500" MinHeight="300" >
+                                    <Label x:Name="reporterabel" FontWeight="DemiBold" Content="Reporter" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="64" Background="SteelBlue" Foreground="White"/>
+                                    <DataGrid x:Name="reporterGrid" 
+                                      VerticalAlignment="Top" 
+                                      BorderBrush="SteelBlue" 
+                                      Foreground="Black" 
+                                      VerticalGridLinesBrush="White" 
+                                      HorizontalScrollBarVisibility="Visible" 
+                                      IsReadOnly="True" 
+                                      HeadersVisibility="Column"
+                                      RowHeight="20" 
+                                      RowHeaderWidth="110" 
+                                      RowBackground="WhiteSmoke"
+                                      AlternatingRowBackground="#FFECECEC" 
+                                      CanUserResizeRows="False" 
+                                      Width="500" 
+                                      Height="250"                                
+                                      HorizontalGridLinesBrush="White" 
+                                      Background="#FFF3F3F2" 
+                                      HorizontalAlignment="Left" 
+                                      VerticalScrollBarVisibility="Visible">
+
+                                        <DataGrid.Columns>
+                                            <DataGridHyperlinkColumn x:Name="jiraIdGridColumn1" CanUserSort="False" Binding="{Binding issueKey}" Header="JIRA ID" Width="110" />
+                                            <DataGridTextColumn x:Name="summaryGridColumn1" CanUserSort="False" Binding="{Binding summary}" Header="Summary" Width="170">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style>
+                                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                        <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn x:Name="statusGridColumn1" TextBlock.TextAlignment="Left" Binding="{Binding status}"  Header="Status" Width="120"/>
+                                            <DataGridTextColumn x:Name="issueTypeGridColumn1" Binding="{Binding issueType}"  Header="Issue Type" Width="80"/>
+                                        </DataGrid.Columns>
+
+                                        <DataGrid.CellStyle>
+                                            <Style TargetType="DataGridCell" >
+                                                <EventSetter Event="PreviewMouseDown" Handler="Grid_PreviewMouseDown"/>
+                                                <Setter Property="ToolTip" Value="{Binding toolTip}" />
+                                            </Style>
+                                        </DataGrid.CellStyle>
+
+                                        <DataGrid.Resources>
+                                            <Style TargetType="DataGridColumnHeader">
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                                <Setter Property="Height" Value="30"/>
+                                                <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
+                                            </Style>
+
+                                            <Style TargetType="ColumnDefinition">
+                                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                            </Style>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFAAA7AC"/>
+                                        </DataGrid.Resources>
+                                    </DataGrid>
+
+                                    <StackPanel x:Name="ReporterIssues" Orientation="Horizontal" Margin="0,10,0,0">
+                                        <TextBlock x:Name="reporterIssueTextBlock" Text="{x:Static properties:Resources.reporterIssueTextBlock}" FontWeight="Bold" FontSize="12"/>
+                                        <TextBlock x:Name="reporterIssueCount" FontWeight="Bold" FontSize="12" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem x:Name="crucibleTab" ToolTip="CRUCIBLE">
+                        <TabItem.Header>
+                            <Image x:Name="CrucibleLogo" Width="25" Margin="0,0,0,0" Height="35" Source="crucible.png"/>
+                        </TabItem.Header>
+                        <Grid x:Name="crucibleGrid" Background="#FFE5E5E5" Height="325">
+                            <StackPanel x:Name="crucibleDisplayStack" Orientation="Horizontal" MinWidth="1056" HorizontalAlignment="Center" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Visible" MinHeight="300">
+                                <StackPanel x:Name="inboxStack" MinWidth="500" MinHeight="300" Margin="10">
+                                    <Label x:Name="inboxlabel" FontWeight="DemiBold" Content="Inbox" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="43" Background="SteelBlue" Foreground="White"/>
+                                    <DataGrid x:Name="inboxGrid" 
+                                      VerticalAlignment="Top" 
+                                      BorderBrush="SteelBlue" 
+                                      Foreground="Black" 
+                                      VerticalGridLinesBrush="White" 
+                                      HorizontalScrollBarVisibility="Visible" 
+                                      IsReadOnly="True" 
+                                      HeadersVisibility="Column"
+                                      RowHeight="20" 
+                                      RowHeaderWidth="110" 
+                                      RowBackground="WhiteSmoke"
+                                      AlternatingRowBackground="#FFECECEC" 
+                                      CanUserResizeRows="False" 
+                                      Height="250"
+                                      HorizontalGridLinesBrush="White" 
+                                      Background="#FFF3F3F2"
+                                      HorizontalAlignment="Left" 
+                                      VerticalScrollBarVisibility="Visible" Width="500">
+
+                                        <DataGrid.Columns>
+                                            <DataGridHyperlinkColumn x:Name="inboxIdGridColumn" CanUserSort="False" Binding="{Binding reviewKey}" Header="CRUCIBLE ID" Width="110" />
+                                            <DataGridTextColumn x:Name="inboxauthorGridColumn" Binding="{Binding author}"  Header="Author" Width="120"/>
+                                            <DataGridTextColumn x:Name="inboxdescriptionGridColumn" Binding="{Binding description}"  Header="Description" Width="250"/>
+                                        </DataGrid.Columns>
+
+                                        <DataGrid.CellStyle>
+                                            <Style TargetType="DataGridCell" >
+                                                <EventSetter Event="PreviewMouseDown" Handler="Grid_PreviewMouseDown"/>
+                                                <Setter Property="ToolTip" Value="{Binding crToolTip}" />
+                                            </Style>
+                                        </DataGrid.CellStyle>
+
+                                        <DataGrid.Resources>
+                                            <Style TargetType="DataGridColumnHeader">
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                                <Setter Property="Height" Value="30"/>
+                                                <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
+                                            </Style>
+
+                                            <Style TargetType="ColumnDefinition">
+                                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                            </Style>
+
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFAAA7AC"/>
+                                        </DataGrid.Resources>
+                                    </DataGrid>
+
+                                    <StackPanel x:Name="InboxReviews" Orientation="Horizontal" Margin="0,10,0,0">
+                                        <TextBlock x:Name="InboxReviewTextBlock" Text="{x:Static properties:Resources.assigneeIssueTextBlock}" FontWeight="Bold" FontSize="12" HorizontalAlignment="Center"/>
+                                        <TextBlock x:Name="InboxReviewCount" FontWeight="Bold" FontSize="12" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel x:Name="outboxStack" Margin="10" MinWidth="500" MinHeight="300" >
+                                    <Label x:Name="outboxLabel" FontWeight="DemiBold" Content="Outbox" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="53" Background="SteelBlue" Foreground="White"/>
+                                    <DataGrid x:Name="outboxGrid" 
+                                      VerticalAlignment="Top" 
+                                      BorderBrush="SteelBlue" 
+                                      Foreground="Black" 
+                                      VerticalGridLinesBrush="White" 
+                                      HorizontalScrollBarVisibility="Visible" 
+                                      IsReadOnly="True" 
+                                      HeadersVisibility="Column"
+                                      RowHeight="20" 
+                                      RowHeaderWidth="110" 
+                                      RowBackground="WhiteSmoke"
+                                      AlternatingRowBackground="#FFECECEC" 
+                                      CanUserResizeRows="False" 
+                                      Width="500" 
+                                      Height="250"                                
+                                      HorizontalGridLinesBrush="White" 
+                                      Background="#FFF3F3F2" 
+                                      HorizontalAlignment="Left" 
+                                      VerticalScrollBarVisibility="Visible">
+                                    <DataGrid.Columns>
+                                            <DataGridHyperlinkColumn x:Name="outboxIdGridColumn" CanUserSort="False" Binding="{Binding reviewKey}" Header="CRUCIBLE ID" Width="110" />
+                                            <DataGridTextColumn x:Name="outboxauthorGridColumn" Binding="{Binding author}"  Header="Author" Width="120"/>
+                                            <DataGridTextColumn x:Name="outboxDescriptionColumn" Binding="{Binding description}"  Header="Description" Width="250"/>
+                                        </DataGrid.Columns>
+                           
+                                        <DataGrid.CellStyle>
+                                            <Style TargetType="DataGridCell" >
+                                                <EventSetter Event="PreviewMouseDown" Handler="Grid_PreviewMouseDown"/>
+                                                <Setter Property="ToolTip" Value="{Binding crToolTip}" />
+                                            </Style>
+                                        </DataGrid.CellStyle>
+
+                                        <DataGrid.Resources>
+                                            <Style TargetType="DataGridColumnHeader">
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                                <Setter Property="Height" Value="30"/>
+                                                <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
+                                            </Style>
+
+                                            <Style TargetType="ColumnDefinition">
+                                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                            </Style>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFAAA7AC"/>
+                                        </DataGrid.Resources>
+                                    </DataGrid>
+
+                                    <StackPanel x:Name="OutboxReviews" Orientation="Horizontal" Margin="0,10,0,0">
+                                        <TextBlock x:Name="OutboxReviewTextBlock" Text="{x:Static properties:Resources.reporterIssueTextBlock}" FontWeight="Bold" FontSize="12"/>
+                                        <TextBlock x:Name="OutboxReviewCount" FontWeight="Bold" FontSize="12" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem x:Name="browserTab" ToolTip="BROWSER">
+                        <TabItem.Header>
+                            <Image x:Name="Web" Width="35" Height="35" Source="website.png"/>
+                        </TabItem.Header>
+                        <WebBrowser x:Name="hyperlinkOpenBrowser" MinHeight="320.8" MinWidth="1050" LoadCompleted="LoadCompletedAction" Height="320" Margin="0,0,0.4,0"/>
+                    </TabItem>
+
+                </TabControl>               
+
+                <StackPanel x:Name="statusStack">
+                    <ProgressBar Name="statusProgressBar" Height="5" />
+                    <TextBlock x:Name="StatusBlock" FontWeight="Bold" HorizontalAlignment="Left" Height="26" Width="385" VerticalAlignment="Bottom" Margin="5,5,0,0"/>
+                </StackPanel>
+        
+            </StackPanel>
+
+        </DockPanel>        
+    </Grid>    
+</Window>
